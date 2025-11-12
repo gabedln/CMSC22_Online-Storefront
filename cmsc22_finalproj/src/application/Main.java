@@ -19,6 +19,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
+			stage.setResizable(false);
 			BorderPane root = new BorderPane(); // initial welcome screen, prompts user to login
 			root.getStyleClass().add("border-pane");
 			Scene scene = new Scene(root,1024,576);
