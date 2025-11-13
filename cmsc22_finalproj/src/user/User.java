@@ -7,10 +7,10 @@ public abstract class User {
 	private double balance;
 	private String location;
 
-	public String getUsername(){ return Username; }
-	public String getDisplayName { return displayName; }
-	public double getBalance { return balance; }
-	public String getLocation { return location; }
+	public String getUsername(){ return username; }
+	public String getDisplayName() { return displayName; }
+	public double getBalance() { return balance; }
+	public String getLocation() { return location; }
 	
 	
 	public User(String username, String password, String displayName, double balance, String location) {
