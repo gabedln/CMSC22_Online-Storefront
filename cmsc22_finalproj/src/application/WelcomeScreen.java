@@ -39,6 +39,12 @@ public class WelcomeScreen {
 		} else {
 			welcomeLabel = new Text("WELCOME, SELLER " + user.getDisplayName() + "!");
 			continueButton = new Button("start selling");
+			continueButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				public void handle(MouseEvent arg0) {
+					SellerScreen sellerscreen = new SellerScreen(stage, (Seller)user);
+					stage.setScene(sellerscreen.getScene());
+				}
+			});
 		}
 		
 		welcomeLabel.getStyleClass().add("welcome-text");
