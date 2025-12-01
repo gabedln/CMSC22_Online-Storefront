@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -31,6 +32,8 @@ public class Main extends Application {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void start(Stage stage) {
+		Image icon = new Image(getClass().getResourceAsStream("/application/images/logo.png"));
+		
 		try {
 			Path loadPath = Paths.get("src/application/save/users.txt");
 			if(Files.exists(loadPath)) {
@@ -93,7 +96,6 @@ public class Main extends Application {
 			HBox signupPrompt = new HBox (4, signupLabel, signupLink);
 			
 			
-			
 			GridPane grid = new GridPane();
 			grid.setHgap(10);
 			grid.setVgap(10);
@@ -107,6 +109,7 @@ public class Main extends Application {
 			
 			root.setCenter(grid);
 			stage.setScene(scene);
+			stage.getIcons().add(icon);
 			stage.show();
 		} catch(Exception e) { e.printStackTrace(); }
 	}
