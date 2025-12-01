@@ -1,10 +1,12 @@
 package user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import product.*;
 
-public class Seller extends User {
+public class Seller extends User implements Serializable {
 	
+	private static final long serialVersionUID = 2L;
 	private ArrayList<Product> products = new ArrayList<>();
 	private ArrayList<Vouchers> vouchers = new ArrayList<>();
 	
@@ -30,6 +32,7 @@ public class Seller extends User {
 	}
 	
 	public ArrayList<Vouchers> getVouchers() { return this.vouchers; }
+	public ArrayList<Product> getProducts() { return this.products; }
 	
 	
 

@@ -1,11 +1,13 @@
 package user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import product.*;
 
-public class Buyer extends User {
-    
+public class Buyer extends User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
     private Scanner sc = new Scanner(System.in);
 
     private ArrayList<Product> cart = new ArrayList<>();
