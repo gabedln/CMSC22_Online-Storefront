@@ -30,6 +30,12 @@
 	-fx-background-position: center;
 }
 
+.buyerscreen_initial {
+    -fx-background-image: url("images/buyerscreen_initial.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
 .text-field{
 	-fx-font-size: 21px;
 	-fx-font-family: "Nine By Five NBP";
