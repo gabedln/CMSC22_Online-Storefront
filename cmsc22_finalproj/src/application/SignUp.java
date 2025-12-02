@@ -44,7 +44,7 @@ public class SignUp {
 		
 		PasswordField pwField = new PasswordField();
 		pwField.setPromptText("password");
-		locationField.getStyleClass().add("text-field");
+		pwField.getStyleClass().add("text-field");
 		// GridPane sets password field and email field to be the same, appearance wise
 		
 		ComboBox<String> userField = new ComboBox<>();

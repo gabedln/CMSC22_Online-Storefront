@@ -31,6 +31,13 @@
 	-fx-background-position: center;
 }
 
+.add-product{
+	-fx-background-image: url("images/add_product.png");
+	-fx-background-size: cover;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}
+
 .buyerscreen_initial {
     -fx-background-image: url("images/buyerscreen_initial.png");
     -fx-background-size: cover;
@@ -46,9 +53,55 @@
 }
 
 
+.product-back-button{
+	-fx-font-size: 26px;
+	-fx-font-family: "Nine By Five NBP";
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+	-fx-background-color: #eec260;
+	-fx-background-radius: 20px;  
+	-fx-border-color: black;
+	-fx-border-width: 3px;
+	-fx-border-radius: 20px;
+}
+
+.product-combo-box {
+	-fx-font-size: 30px;
+	-fx-font-family: "Nine By Five NBP";
+	-fx-padding: 2 8 2 8;
+	-fx-border-width: 3px;
+	-fx-border-color: black;
+	-fx-background-color: #fdd060;
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+}
+
+.add-button{
+	-fx-font-size: 26px;
+	-fx-font-family: "Nine By Five NBP";
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+	-fx-background-color: #8c0300;
+	-fx-background-radius: 20px;  
+	-fx-border-color: black;
+	-fx-border-width: 3px;
+	-fx-border-radius: 20px;
+}
 
 .text-field{
 	-fx-font-size: 21px;
+	-fx-font-family: "Nine By Five NBP";
+	-fx-padding: 2 8 2 8;  /* -fx-padding: top right bottom left  */
+	-fx-background-color: #ffbbba;
+	-fx-prompt-text-fill: #5b5b5b;
+	-fx-background-radius: 20px;
+	-fx-border-color: black;
+	-fx-border-width: 3px;
+	-fx-border-radius: 20px;
+}
+
+.products-field{
+	-fx-font-size: 30px;
 	-fx-font-family: "Nine By Five NBP";
 	-fx-padding: 2 8 2 8;  /* -fx-padding: top right bottom left  */
 	-fx-background-color: #ffbbba;
