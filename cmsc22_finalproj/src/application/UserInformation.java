@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import user.Seller;
 import user.User;
 
 public class UserInformation {
@@ -24,17 +23,16 @@ public class UserInformation {
         userInfoScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         this.userInfoScene = userInfoScene;
 
-        Seller seller = (Seller) user;
-
         // ---------------- Labels ----------------
         Label title = new Label("USER'S ACCOUNT INFORMATION");
         title.getStyleClass().add("welcome-text");
 
-        Label displayName = new Label("display name: " + seller.getDisplayName());
-        Label username = new Label("username: @" + seller.getUsername());
-        Label location = new Label("location: " + seller.getLocation());
-        Label accountType = new Label("account type: SELLER");
-        Label balance = new Label("balance: ₱" + seller.getBalance());
+    Label displayName = new Label("display name: " + user.getDisplayName());
+    Label username = new Label("username: @" + user.getUsername());
+    Label location = new Label("location: " + user.getLocation());
+    Label accountType = new Label("account type: " + user.getAccountType());
+    Label balance = new Label("balance: ₱" + user.getBalance());
+
 
         // ---------------- Edit Icons ----------------
         Image editIcon = new Image(getClass().getResourceAsStream("/application/images/edit_icon.png"));
@@ -64,9 +62,10 @@ public class UserInformation {
             Button confirm = new Button("confirm");
             confirm.getStyleClass().add("add-button");
             confirm.setOnAction(ev -> {
-                seller.changeName(nameField.getText());
-                stage.setScene(new UserInformation(stage, previous, seller).getScene());
+                user.setDisplayName(nameField.getText());
+                stage.setScene(new UserInformation(stage, previous, user).getScene());
             });
+
 
             GridPane editPane = new GridPane();
             editPane.setAlignment(Pos.CENTER);
@@ -84,9 +83,10 @@ public class UserInformation {
             Button confirm = new Button("confirm");
             confirm.getStyleClass().add("add-button");
             confirm.setOnAction(ev -> {
-                seller.changeLocation(locationField.getText());
-                stage.setScene(new UserInformation(stage, previous, seller).getScene());
+                user.setLocation(locationField.getText());
+                stage.setScene(new UserInformation(stage, previous, user).getScene());
             });
+
 
             GridPane editPane = new GridPane();
             editPane.setAlignment(Pos.CENTER);
