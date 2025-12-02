@@ -84,11 +84,11 @@ public class Seller extends User {
         return this.displayName;
     }
 
-    public void changeDisplayName(String name){
+    public void setDisplayName(String name){
         this.displayName = name;
     }
 
-    public void changeLocation (String location){
+    public void setLocation (String location){
         this.location = location;
     }
 
