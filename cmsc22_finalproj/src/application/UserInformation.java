@@ -48,11 +48,12 @@ public class UserInformation {
 
         Button editNameButton = new Button();
         editNameButton.setGraphic(editNameIcon);
-        editNameButton.setStyle("-fx-background-color: transparent;");
-
+        editNameButton.getStyleClass().add("edit-icon-button");
+        
         Button editLocationButton = new Button();
         editLocationButton.setGraphic(editLocationIcon);
-        editLocationButton.setStyle("-fx-background-color: transparent;");
+        editLocationButton.getStyleClass().add("edit-icon-button");
+
 
         // ---------------- Edit Actions ----------------
         editNameButton.setOnAction(e -> {
