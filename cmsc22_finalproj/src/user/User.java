@@ -31,11 +31,12 @@ public abstract class User implements Serializable {
 	public abstract void displayDashboard();
 	
 	
-	public void changeDisplayName() {
-
+	public void changeDisplayName(String name) {
+		this.name = name;
 	}
 	
-	public void changeLocation() {
+	public void changeLocation(String location) {
+		this.location = location;
 	}
 	
 	
