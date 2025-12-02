@@ -18,7 +18,6 @@ public class SellerScreen {
 		startSelling.getStyleClass().add("startSelling-button");
 		
 		BorderPane root = new BorderPane();
-		root.getStyleClass().add("sellerscreen_initial");
 		Scene sellerScene = new Scene(root, 1024, 576);
 		sellerScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		this.seller = sellerScene;
