@@ -1,3 +1,4 @@
+
 @font-face{
 	src: url(fonts/nine0.ttf);
 }
@@ -33,8 +34,18 @@
 .buyerscreen_initial {
     -fx-background-image: url("images/buyerscreen_initial.png");
     -fx-background-size: cover;
+    -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
+
+.buyerscreen_with_products {
+    -fx-background-image: url("images/bg.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+
 
 .text-field{
 	-fx-font-size: 21px;
