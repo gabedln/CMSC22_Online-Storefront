@@ -4,16 +4,21 @@ import product.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Buyer extends User {
 
-    private static final long serialVersionUID = 1L; // FIX 1
+    private static final long serialVersionUID = 1L;
+    private static final Scanner sc = new Scanner(System.in);
+    
+    // Constants for menu options
+    private static final int YES_OPTION = 1;
+    private static final int NO_OPTION = 2;
 
     private ArrayList<Product> wishlist = new ArrayList<>();
     private ArrayList<Vouchers> voucherList = new ArrayList<>();
     private HashMap<Product, Integer> cart = new HashMap<>();
     private ArrayList<TransactionHistory> transactions = new ArrayList<>();
-
     private float balance;
 
     public Buyer(String displayName, String username, String password, float balance, String location) {
@@ -21,10 +26,17 @@ public class Buyer extends User {
         this.balance = balance;
     }
 
-    // REQUIRED IMPLEMENTATION (FIX 2)
     @Override
     public void displayDashboard() {
-        System.out.println("Buyer Dashboard");
+        System.out.println("\n===== BUYER DASHBOARD =====");
+        System.out.println("Username: " + getUsername());
+        System.out.println("Display Name: " + getDisplayName());
+        System.out.println("Location: " + getLocation());
+        System.out.println("Balance: ₱" + String.format("%.2f", balance));
+        System.out.println("Cart Items: " + cart.size());
+        System.out.println("Wishlist Items: " + wishlist.size());
+        System.out.println("Total Transactions: " + transactions.size());
+        System.out.println("===========================\n");
     }
 
     public void setBalance(float balance) {
@@ -49,6 +61,12 @@ public class Buyer extends User {
 
     public void removeWishlist(Product product) {
         wishlist.remove(product);
+    }
+    
+    public void wishlistToCart(Product product) {
+        if (wishlist.contains(product)) {
+            cart.put(product, 1);
+        }
     }
 
     // Cart
@@ -124,74 +142,155 @@ public class Buyer extends User {
     public void buy(ArrayList<Product> toBuy) {
         checkStock(toBuy);
 
-        ArrayList<Seller> sellersBoughtFrom = new ArrayList<>();
+        ArrayList<Seller> sellersBoughtFrom = getUniqueSellers(toBuy);
+        
+        System.out.println("Do you want to apply the best voucher deals? [1] Yes [2] No");
+        int choice = sc.nextInt();
+        sc.nextLine();
 
-        for (Product p : toBuy) {
-            if (!sellersBoughtFrom.contains(p.getSeller())) {
-                sellersBoughtFrom.add(p.getSeller());
-            }
-        }
-
-        float overallCost = 0f;
-
-        for (Seller seller : sellersBoughtFrom) {
-            float sellerTotal = 0f;
-
-            for (Product p : toBuy) {
-                if (p.getSeller() == seller) {
-                    sellerTotal += p.getPrice();
-                }
-            }
-
-            for (Vouchers voucher : voucherList) {
-                if (voucher.getSeller() == seller) {
-                    sellerTotal *= (1 - voucher.getDiscount());
-                }
-            }
-
-            overallCost += sellerTotal;
-        }
+        HashMap<Seller, Vouchers> appliedVouchers = new HashMap<>();
+        float overallCost = calculateTotalWithVouchers(toBuy, sellersBoughtFrom, choice, appliedVouchers);
 
         if (this.getBalance() < overallCost) {
             System.out.println("Insufficient balance.");
             return;
         }
 
-        ArrayList<Vouchers> usedVouchers = new ArrayList<>();
+        processPurchase(toBuy, sellersBoughtFrom, appliedVouchers);
+        System.out.println("Purchase successful!");
+    }
 
-        for (Seller seller : sellersBoughtFrom) {
+    private ArrayList<Seller> getUniqueSellers(ArrayList<Product> products) {
+        ArrayList<Seller> sellers = new ArrayList<>();
+        for (Product p : products) {
+            if (!sellers.contains(p.getSeller())) {
+                sellers.add(p.getSeller());
+            }
+        }
+        return sellers;
+    }
 
-            float sellerTotal = 0f;
+    private float calculateTotalWithVouchers(ArrayList<Product> toBuy, 
+                                            ArrayList<Seller> sellers, 
+                                            int applyVouchers,
+                                            HashMap<Seller, Vouchers> appliedVouchers) {
+        float overallCost = 0f;
+
+        for (Seller seller : sellers) {
+            float subtotal = calculateSubtotalForSeller(toBuy, seller);
+
+            if (applyVouchers == YES_OPTION) {
+                Vouchers bestVoucher = findBestVoucher(seller, subtotal);
+                
+                if (bestVoucher != null) {
+                    float savings = applyVoucher(bestVoucher, subtotal);
+                    System.out.println("Best voucher found for " + seller.getUsername() +
+                                       " | Discount: " + (bestVoucher.getDiscount() * 100) + "%" +
+                                       " | Savings: ₱" + savings);
+                    
+                    subtotal -= savings;
+                    appliedVouchers.put(seller, bestVoucher);
+                }
+            } else if (applyVouchers == NO_OPTION) {
+                // No vouchers applied - proceed with regular pricing
+            }
+
+            overallCost += subtotal;
+        }
+
+        return overallCost;
+    }
+
+    private float calculateSubtotalForSeller(ArrayList<Product> products, Seller seller) {
+        float subtotal = 0f;
+        for (Product product : products) {
+            if (seller == product.getSeller()) {
+                subtotal += product.getPrice();
+            }
+        }
+        return subtotal;
+    }
+
+    private Vouchers findBestVoucher(Seller seller, float subtotal) {
+        Vouchers bestVoucher = null;
+        float bestSavings = 0f;
+
+        for (Vouchers v : voucherList) {
+            if (v.getSeller() != seller) continue;
+            if (subtotal < v.getMin()) continue;
+
+            float discountAmount = subtotal * v.getDiscount();
+            float cappedDiscount = Math.min(discountAmount, v.getCap());
+
+            if (cappedDiscount > bestSavings) {
+                bestSavings = cappedDiscount;
+                bestVoucher = v;
+            }
+        }
+
+        return bestVoucher;
+    }
+
+    private float applyVoucher(Vouchers voucher, float amount) {
+        float discountAmount = amount * voucher.getDiscount();
+        float cappedDiscount = Math.min(discountAmount, voucher.getCap());
+        
+        voucher.reduceQuantity();
+        if (voucher.getQuantity() == 0) {
+            voucherList.remove(voucher);
+        }
+        
+        return cappedDiscount;
+    }
+
+    private void processPurchase(ArrayList<Product> toBuy, 
+                                ArrayList<Seller> sellers,
+                                HashMap<Seller, Vouchers> appliedVouchers) {
+        for (Seller seller : sellers) {
+            float subtotal = 0f;
             ArrayList<Product> purchasedFromSeller = new ArrayList<>();
 
+            // Process each product from this seller
             for (Product p : toBuy) {
                 if (p.getSeller() == seller) {
-                    sellerTotal += p.getPrice();
+                    subtotal += p.getPrice();
                     p.setStock(p.getStock() - 1);
                     purchasedFromSeller.add(p);
 
-                    TransactionHistory th =
-                            new TransactionHistory(this, seller, p, 1, p.getPrice());
+                    TransactionHistory th = new TransactionHistory(this, seller, p, 1, p.getPrice());
                     transactions.add(th);
                 }
             }
 
-            for (Vouchers voucher : voucherList) {
-                if (voucher.getSeller() == seller) {
-                    sellerTotal *= (1 - voucher.getDiscount());
-                    usedVouchers.add(voucher);
-                    break;
-                }
+            // Apply voucher discount if applicable
+            if (appliedVouchers.containsKey(seller)) {
+                Vouchers v = appliedVouchers.get(seller);
+                float discountAmount = subtotal * v.getDiscount();
+                float cappedDiscount = Math.min(discountAmount, v.getCap());
+                subtotal -= cappedDiscount;
             }
 
-            seller.setBalance(seller.getBalance() + sellerTotal);
-            this.setBalance(this.getBalance() - sellerTotal);
+            // Update balances
+            seller.setBalance(seller.getBalance() + subtotal);
+            this.setBalance(this.getBalance() - subtotal);
 
+            // Update transaction costs to reflect discounted prices
+            updateTransactionCosts(seller, purchasedFromSeller, subtotal);
+
+            // Remove purchased items from toBuy list
             toBuy.removeAll(purchasedFromSeller);
         }
+    }
 
-        voucherList.removeAll(usedVouchers);
-        System.out.println("Purchase successful!");
+    private void updateTransactionCosts(Seller seller, 
+                                       ArrayList<Product> purchasedProducts, 
+                                       float totalCost) {
+        for (TransactionHistory th : transactions) {
+            if (th.getSeller() == seller && purchasedProducts.contains(th.getProduct())) {
+                float perProductCost = totalCost / purchasedProducts.size();
+                th.setTotalCost(perProductCost);
+            }
+        }
     }
 
     // Transaction History
@@ -207,7 +306,6 @@ public class Buyer extends User {
         float totalSpent = 0f;
 
         for (TransactionHistory th : transactions) {
-
             System.out.println("ID: " + th.getProduct().getId()
                     + " | Name: " + th.getProduct().getName()
                     + " | Price: ₱" + th.getProduct().getPrice());
@@ -219,5 +317,22 @@ public class Buyer extends User {
         System.out.println("-----------------------------------");
         System.out.println("Total items bought: " + totalItems);
         System.out.println("Total amount spent: ₱" + totalSpent);
+    }
+    
+    // Getters for collections
+    public ArrayList<Product> getWishlist() {
+        return wishlist;
+    }
+    
+    public ArrayList<Vouchers> getVoucherList() {
+        return voucherList;
+    }
+    
+    public HashMap<Product, Integer> getCart() {
+        return cart;
+    }
+    
+    public ArrayList<TransactionHistory> getTransactions() {
+        return transactions;
     }
 }
