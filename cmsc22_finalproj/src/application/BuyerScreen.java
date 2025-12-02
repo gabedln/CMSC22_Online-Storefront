@@ -2,6 +2,9 @@ package application;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,6 +16,14 @@ public class BuyerScreen {
 	private Scene buyerScene;
 
 	public BuyerScreen(Stage stage, Buyer buyer) {
+		Image userIcon = new Image(getClass().getResourceAsStream("/application/images/user_icon.png"));
+		ImageView usericon = new ImageView(userIcon);
+		usericon.setFitHeight(45);
+		usericon.setFitWidth(45);
+		
+		Button userButton = new Button();
+		userButton.setGraphic(usericon);
+		userButton.setStyle("-fx-background-color: transparent; -fx-padding: 10 0 0 960;");
 
 		BorderPane root = new BorderPane();
 
