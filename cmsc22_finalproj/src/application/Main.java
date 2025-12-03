@@ -44,6 +44,7 @@ public class Main extends Application {
 			}
 			
 			stage.setResizable(false);
+			
 			BorderPane root = new BorderPane(); // initial welcome screen, prompts user to login
 			root.getStyleClass().add("root-border-pane");
 			Scene scene = new Scene(root,1024,576);
