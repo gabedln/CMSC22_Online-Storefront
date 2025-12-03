@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import user.Seller;
-import Product.Voucher;
+import product.Vouchers;
 
 public class AddVoucher {
     private Scene addVoucher;
@@ -23,7 +23,6 @@ public class AddVoucher {
         addVoucher.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         this.addVoucher = addVoucher;
 
-        // ---------------- Fields ----------------
         TextField discountField = new TextField();
         discountField.setPromptText("discount (%)");
         discountField.getStyleClass().add("text-field");
@@ -44,7 +43,6 @@ public class AddVoucher {
         capField.getStyleClass().add("text-field");
         capField.setMinWidth(275);
 
-        // ---------------- Buttons ----------------
         Button addButton = new Button("add voucher");
         addButton.setDisable(true);
         addButton.setMinWidth(275);
@@ -60,7 +58,6 @@ public class AddVoucher {
             }
         });
 
-        // ---------------- Listener ----------------
         ChangeListener<String> textFieldListener = (obs, oldVal, newVal) -> {
             boolean allFilled = !discountField.getText().isEmpty()
                     && !quantityField.getText().isEmpty()
