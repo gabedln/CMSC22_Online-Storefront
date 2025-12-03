@@ -2,6 +2,12 @@
 	src: url(fonts/nine0.ttf);
 }
 
+.seller-storefront {
+    -fx-background-image: url("images/background_seller_storefront.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 .root-border-pane {
     -fx-background-image: url("images/background_welcomescreen.png");
     -fx-background-size: cover;
