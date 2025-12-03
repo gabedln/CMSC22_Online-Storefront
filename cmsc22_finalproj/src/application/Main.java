@@ -129,7 +129,7 @@ public class Main extends Application {
 	
 	
 	public static Scene getLoginScene() { return loginScene; }
-	public static void logout(Stage stage) { stage.setScene(loginScene); System.gc(); }
+	public static void logout(Stage stage) { stage.setScene(loginScene); }
 	public static void addUser(User user) { users.add(user); }
 	public static ArrayList<User> getUsers() { return users; }
 	

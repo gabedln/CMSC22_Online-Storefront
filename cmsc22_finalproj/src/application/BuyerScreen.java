@@ -58,6 +58,12 @@ public class BuyerScreen {
 		userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
 				UserInformation userInfo = new UserInformation(stage, buyerScene, (User)buyer);
+				usericon.setImage(null);
+				homeicon.setImage(null);
+				vouchericon.setImage(null);
+				wishlisticon.setImage(null);
+				carticon.setImage(null);
+				transactionicon.setImage(null);
 				stage.setScene(userInfo.getScene());
 			}
 		});
