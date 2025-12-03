@@ -135,11 +135,8 @@ public class UserInformation {
         });
         
         logout.setOnAction(e-> {
-            editNameIcon.setImage(null);
-            editLocationIcon.setImage(null);
-            javafx.application.Platform.runLater(() -> {
-                Main.logout(stage);
-            });
+        	Main.saveData();
+        	stage.close();
         });
 
         root.setCenter(grid);

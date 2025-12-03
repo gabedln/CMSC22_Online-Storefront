@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 	private static ArrayList<User> users = new ArrayList<>();
-	private static Scene loginScene;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -49,7 +48,6 @@ public class Main extends Application {
 			BorderPane root = new BorderPane(); // initial welcome screen, prompts user to login
 			root.getStyleClass().add("root-border-pane");
 			Scene scene = new Scene(root,1024,576);
-			loginScene = scene;
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			stage.setTitle("Girl, Boy, Bakla, Tomboy Store");
 			
@@ -111,7 +109,6 @@ public class Main extends Application {
 			grid.addRow(3, signupPrompt);
 			
 			root.setCenter(grid);
-			loginScene = scene;
 			stage.setScene(scene);
 			stage.getIcons().add(icon);
 			stage.show();
@@ -127,9 +124,7 @@ public class Main extends Application {
 		} catch(IOException e) {}
 	}
 	
-	
-	public static Scene getLoginScene() { return loginScene; }
-	public static void logout(Stage stage) { stage.setScene(loginScene); }
+
 	public static void addUser(User user) { users.add(user); }
 	public static ArrayList<User> getUsers() { return users; }
 	
