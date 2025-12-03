@@ -1,15 +1,18 @@
 package application;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import user.Buyer;
+import user.User;
 
 import java.util.ArrayList;
 
@@ -18,8 +21,10 @@ public class BuyerScreen {
     private Scene buyerScene;
 
     public BuyerScreen(Stage stage, Buyer buyer) {
+    	
 
         //load icons
+		Image userIcon 		  = loadImage("/application/images/user_icon.png");
         Image homeIcon        = loadImage("/application/images/home_icon.png");
         Image voucherIcon     = loadImage("/application/images/voucher_icon.png");
         Image wishlistIcon    = loadImage("/application/images/wishlist_icon.png");
@@ -27,6 +32,7 @@ public class BuyerScreen {
         Image transactionIcon = loadImage("/application/images/transaction_icon.png");
 
         //create buttons
+        Button userButton		 = createIconButton(userIcon, 45, 45);
         Button homeButton        = createIconButton(homeIcon, 45, 45);
         Button voucherButton     = createIconButton(voucherIcon, 45, 45);
         Button wishlistButton    = createIconButton(wishlistIcon, 45, 45);
@@ -40,6 +46,12 @@ public class BuyerScreen {
         wishlistButton.setOnAction(e -> System.out.println("Wishlist clicked"));
         cartButton.setOnAction(e -> System.out.println("Cart clicked"));
         transactionButton.setOnAction(e -> System.out.println("Transaction clicked"));
+		userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent arg0) {
+				UserInformation userInfo = new UserInformation(stage, buyerScene, (User)buyer);
+				stage.setScene(userInfo.getScene());
+			}
+		});
         
         
         //navigation bar
@@ -52,8 +64,9 @@ public class BuyerScreen {
         );
         topButtons.setAlignment(Pos.CENTER_RIGHT);
         topButtons.setStyle("-fx-padding: 20;");
+        
 
-        VBox topSection = new VBox(topButtons);
+        VBox topSection = new VBox(userButton, topButtons);
         topSection.setAlignment(Pos.TOP_RIGHT);
 
         //root layout

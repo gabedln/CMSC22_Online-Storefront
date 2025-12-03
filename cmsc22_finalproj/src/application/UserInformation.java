@@ -16,7 +16,7 @@ import user.*;
 public class UserInformation {
     private Scene userInfoScene;
 
-    public UserInformation(Stage stage, Scene previous, Scene main, User user) {
+    public UserInformation(Stage stage, Scene previous, User user) {
         BorderPane root = new BorderPane();
         root.getStyleClass().add("user-info"); // uses user_information.png
 
@@ -103,7 +103,7 @@ public class UserInformation {
             confirm.getStyleClass().add("add-button");
             confirm.setOnAction(ev -> {
                 user.setDisplayName(nameField.getText());
-                stage.setScene(new UserInformation(stage, previous, main, user).getScene());
+                stage.setScene(new UserInformation(stage, previous, user).getScene());
             });
 
             GridPane editPane = new GridPane();
@@ -124,7 +124,7 @@ public class UserInformation {
             confirm.getStyleClass().add("add-button");
             confirm.setOnAction(ev -> {
                 user.setLocation(locationField.getText());
-                stage.setScene(new UserInformation(stage, previous, main, user).getScene());
+                stage.setScene(new UserInformation(stage, previous, user).getScene());
             });
 
             GridPane editPane = new GridPane();
@@ -136,10 +136,10 @@ public class UserInformation {
             root.setCenter(editPane);
         });
         
-        logout.setOnAction(e-> {
-        	Main login = new Main();
-        	stage.setScene(login.getScene());
-        });
+      //  logout.setOnAction(e-> {
+      //  	Main login = new Main();
+      // 	stage.setScene(login.getScene());
+      //  });
 
         root.setCenter(grid);
         root.setBottom(backButton);

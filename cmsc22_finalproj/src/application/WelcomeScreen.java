@@ -40,7 +40,7 @@ public class WelcomeScreen {
             continueButton = new Button("start shopping");
             continueButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent arg0) {
-                    BuyerScreen buyerscreen = new BuyerScreen(stage, previous, (Buyer) user);
+                    BuyerScreen buyerscreen = new BuyerScreen(stage, (Buyer) user);
                     stage.setScene(buyerscreen.getScene());
                 }
             });

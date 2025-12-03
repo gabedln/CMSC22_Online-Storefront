@@ -28,7 +28,7 @@ public class SellerScreen {
 		userButton.setStyle("-fx-background-color: transparent; -fx-padding: 10 0 0 960;");
 		userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				UserInformation userInfo = new UserInformation(stage, sellerScene, main, (User)seller);
+				UserInformation userInfo = new UserInformation(stage, sellerScene, (User)seller);
 				stage.setScene(userInfo.getScene());
 			}
 		});
