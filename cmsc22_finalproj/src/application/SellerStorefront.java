@@ -1,5 +1,6 @@
 package application;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,10 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import product.Product;
 import user.Seller;
+import user.User;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,71 @@ public class SellerStorefront {
             BackgroundPosition.CENTER,
             new BackgroundSize(100, 100, true, true, false, true)
         );
+        
+        Image userIcon        = new Image(getClass().getResourceAsStream("/application/images/user_icon.png"));
+        ImageView usericon = new ImageView(userIcon);
+        usericon.setFitHeight(45);
+        usericon.setFitWidth(45);
+        
+        Image homeIcon        = new Image(getClass().getResourceAsStream("/application/images/home_icon.png"));
+        ImageView homeicon = new ImageView(homeIcon);
+        homeicon.setFitHeight(45);
+        homeicon.setFitWidth(45);
+        
+        Image voucherIcon     = new Image(getClass().getResourceAsStream("/application/images/voucher_icon.png"));
+        ImageView vouchericon = new ImageView(voucherIcon);
+        vouchericon.setFitHeight(45);
+        vouchericon.setFitWidth(45);
+        
+        Image transactionIcon = new Image(getClass().getResourceAsStream("/application/images/transaction_icon.png"));
+        ImageView transactionicon = new ImageView(transactionIcon);
+        transactionicon.setFitHeight(45);
+        transactionicon.setFitWidth(45);
+
+        // adds buttons
+        Button userButton = new Button();
+        userButton.setGraphic(usericon);
+        userButton.setStyle("-fx-background-color: transparent; -fx-padding: 5 0 0 175;");
+        userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent arg0) {
+                UserInformation userInfo = new UserInformation(stage, prevScene, (User)seller);
+                stage.setScene(userInfo.getScene());
+            }
+        });
+        
+        Button homeButton = new Button();
+        homeButton.setGraphic(homeicon);
+        homeButton.setStyle("-fx-background-color: transparent;");
+        
+        Button voucherButton = new Button();
+        voucherButton.setGraphic(vouchericon);
+        voucherButton.setStyle("-fx-background-color: transparent;");
+        voucherButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent arg0) {
+                ViewVoucher sellerVouchers = new ViewVoucher(stage, prevScene, seller);
+                stage.setScene(sellerVouchers.getScene());
+            }
+        });
+        
+        Button transactionButton = new Button();
+        transactionButton.setGraphic(transactionicon);
+        transactionButton.setStyle("-fx-background-color: transparent;");
+      
+        transactionButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent arg0) {
+                // Pass null for now, or pass seller.getSalesHistory() if you have that list later
+                TransactionScreen transScreen = new TransactionScreen(stage, prevScene, seller, null);
+                stage.setScene(transScreen.getScene());
+            }
+        });
+        
+        
+        //HBox and VBox for buttons
+        HBox icons = new HBox(18, homeButton, voucherButton, transactionButton);
+        VBox topIcons = new VBox(10, userButton, icons);
+        topIcons.setStyle("-fx-padding: 5 0 0 790");
+        
+        
 
         BorderPane root = new BorderPane();
         root.setBackground(new Background(bgImage));
@@ -61,8 +129,9 @@ public class SellerStorefront {
         bottomBox.setAlignment(Pos.CENTER);
         bottomBox.setStyle("-fx-padding: 15;");
         root.setBottom(bottomBox);
+        root.setTop(topIcons);
 
-        this.scene = new Scene(root, 1024, 576);
+        scene = new Scene(root, 1024, 576);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     }
 
@@ -198,6 +267,7 @@ public class SellerStorefront {
         }
     }
 
-    public Scene getScene() { return scene; }
-   
+    public Scene getScene() {
+        return scene;
+    }
 }

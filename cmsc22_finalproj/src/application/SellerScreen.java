@@ -113,8 +113,7 @@ public class SellerScreen {
         } else {
             // Products exist - go directly to storefront
             SellerStorefront storefront = new SellerStorefront(stage, sellerScene, seller);
-            stage.setScene(storefront.getScene());
-            return;
+            this.sellerScene = storefront.getScene();
         }
     }
 
