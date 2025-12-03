@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Seller extends User {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private ArrayList<Product> productList = new ArrayList<>();             // visible products
     private ArrayList<Product> hiddenList = new ArrayList<>();              // hidden products

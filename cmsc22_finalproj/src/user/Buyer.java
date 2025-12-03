@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Buyer extends User {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
 
     private ArrayList<Product> wishlist = new ArrayList<>();
     private ArrayList<Vouchers> voucherList = new ArrayList<>();

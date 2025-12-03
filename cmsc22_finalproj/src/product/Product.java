@@ -1,9 +1,14 @@
 package product;
 
 import user.Seller;
+
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Product {
+public class Product implements Serializable {
+	
+	private static final long serialVersionUID = 4L;
+	
     private String name;
     private float price;
     private int stock;

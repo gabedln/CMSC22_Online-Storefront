@@ -115,6 +115,7 @@ public class AddProduct {
                     System.out.println("Product added successfully: " + name);
 
                     // Go to SellerStorefront after adding product
+                    Main.saveData();
                     SellerStorefront storefront = new SellerStorefront(stage, previous, seller);
                     stage.setScene(storefront.getScene());
                     
