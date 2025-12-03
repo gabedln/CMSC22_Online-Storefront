@@ -1,41 +1,47 @@
 package application;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import user.Buyer;
-import java.util.ArrayList;
+import user.User;
 
 public class BuyerScreen {
 
 	private Scene buyerScene;
 
 	public BuyerScreen(Stage stage, Buyer buyer) {
-		Image userIcon = new Image(getClass().getResourceAsStream("/application/images/user_icon.png"));
-		ImageView usericon = new ImageView(userIcon);
-		usericon.setFitHeight(45);
-		usericon.setFitWidth(45);
-		
-		Button userButton = new Button();
-		userButton.setGraphic(usericon);
-		userButton.setStyle("-fx-background-color: transparent; -fx-padding: 10 0 0 960;");
-
 		BorderPane root = new BorderPane();
+		
+		Image userIcon = new Image(getClass().getResourceAsStream("/application/images/user_icon.png"));
+		
+		ImageView userIconView = new ImageView(userIcon);
+		userIconView.setFitHeight(45);
+		userIconView.setFitWidth(45);
+		Button userButton = new Button();
+		userButton.setGraphic(userIconView);
+		userButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+		
+		userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				UserInformation userInfo = new UserInformation(stage, buyerScene, (User)buyer);
+				stage.setScene(userInfo.getScene());
+			}
+		});
+		
+		HBox topBar = new HBox(userButton);
+		topBar.setAlignment(Pos.TOP_RIGHT);
+		topBar.setStyle("-fx-padding: 10 20 0 0;");
 
-		// temporary list (replace later with real product list)
-		ArrayList<String> products = new ArrayList<>();
-
-		// CHECK IF THERE ARE PRODUCTS
-		if(products.isEmpty()) {
-			root.getStyleClass().add("buyerscreen_initial");
-		}else {
-			root.getStyleClass().add("buyerscreen_with_products");
-		}
+		root.getStyleClass().add("buyerscreen");
 
 		Scene scene = new Scene(root, 1024, 576);
 		scene.getStylesheets().add(
@@ -43,11 +49,7 @@ public class BuyerScreen {
 		);
 		this.buyerScene = scene;
 
-		VBox placeholder = new VBox(); 
-		placeholder.setStyle("-fx-padding: 0 0 120 15;");
-		placeholder.setAlignment(Pos.CENTER);
-
-		root.setBottom(placeholder);
+		root.setTop(topBar);
 	}
 
 	public Scene getScene() {
