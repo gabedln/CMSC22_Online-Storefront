@@ -50,7 +50,7 @@ public class AddBalance {
                 alert.setHeaderText(null);
                 alert.setContentText("₱" + amount + " has been added to your balance.");
                 alert.showAndWait();
-
+                Main.saveData();
                 amountField.clear();
                 methodBox.getSelectionModel().clearSelection();
             } catch (NumberFormatException ex) {
