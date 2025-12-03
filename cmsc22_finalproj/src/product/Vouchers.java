@@ -1,8 +1,9 @@
 package product;
 
 import user.Seller;
+import java.io.Serializable;
 
-public class Vouchers {
+public class Vouchers implements Serializable {
     private Seller seller;
     private static int codeCounter = 0;
     private int voucherCode;
@@ -28,8 +29,8 @@ public class Vouchers {
 
     public int getVoucherCode() { return voucherCode; }
     public int getQuantity() { return quantity; }
-    public float getMin() { return min; }
+    public float getMinimum() { return min; }
     public float getCap() { return cap; }
     public Seller getSeller() { return seller; }
-    public float getDiscount() { return discount / 100.0f; } // returns decimal (e.g., 0.10 for 10%)
+    public float getDiscount() { return discount; } // returns decimal (e.g., 0.10 for 10%)
 }
