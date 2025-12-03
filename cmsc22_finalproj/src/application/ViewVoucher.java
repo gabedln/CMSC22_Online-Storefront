@@ -20,7 +20,7 @@ public class ViewVoucher {
 
     public ViewVoucher(Stage stage, Scene previous, Seller seller) {
         BorderPane root = new BorderPane();
-        root.getStyleClass().add("claim-voucher");
+        root.getStyleClass().add("add-voucher");
 
         Scene scene = new Scene(root, 1024, 576);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -106,7 +106,5 @@ public class ViewVoucher {
         root.setCenter(layout);
     }
 
-    public Scene getScene() {
-        return this.viewVoucherScene;
-    }
+    public Scene getScene() { return this.viewVoucherScene; }
 }

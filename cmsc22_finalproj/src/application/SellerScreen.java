@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import user.Seller;
@@ -18,27 +19,67 @@ public class SellerScreen {
     private Scene sellerScene;
 
     public SellerScreen(Stage stage, Scene main, Seller seller) {
-        // User icon button
+        // adds icons of buttons
         Image userIcon = new Image(getClass().getResourceAsStream("/application/images/user_icon.png"));
         ImageView usericon = new ImageView(userIcon);
         usericon.setFitHeight(45);
         usericon.setFitWidth(45);
+        
+        Image homeIcon        = new Image(getClass().getResourceAsStream("/application/images/home_icon.png"));
+    	ImageView homeicon = new ImageView(homeIcon);
+		homeicon.setFitHeight(45);
+		homeicon.setFitWidth(45);
+		
+        Image voucherIcon     = new Image(getClass().getResourceAsStream("/application/images/voucher_icon.png"));
+    	ImageView vouchericon = new ImageView(voucherIcon);
+		vouchericon.setFitHeight(45);
+		vouchericon.setFitWidth(45);
+		
+        Image transactionIcon = new Image(getClass().getResourceAsStream("/application/images/transaction_icon.png"));
+    	ImageView transactionicon = new ImageView(transactionIcon);
+		transactionicon.setFitHeight(45);
+		transactionicon.setFitWidth(45);
 
+		// adds buttons
         Button userButton = new Button();
         userButton.setGraphic(usericon);
-        userButton.setStyle("-fx-background-color: transparent; -fx-padding: 10 0 0 960;");
-
-        BorderPane root = new BorderPane();
-        Scene sellerScene = new Scene(root, 1024, 576);
-        sellerScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        this.sellerScene = sellerScene;
-
+        userButton.setStyle("-fx-background-color: transparent; -fx-padding: 5 0 0 175;");
         userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent arg0) {
                 UserInformation userInfo = new UserInformation(stage, sellerScene, (User)seller);
                 stage.setScene(userInfo.getScene());
             }
         });
+        
+        Button homeButton = new Button();
+		homeButton.setGraphic(homeicon);
+		homeButton.setStyle("-fx-background-color: transparent;");
+		
+		Button voucherButton = new Button();
+		voucherButton.setGraphic(vouchericon);
+		voucherButton.setStyle("-fx-background-color: transparent;");
+		homeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent arg0) {
+				ViewVoucher sellerVouchers = new ViewVoucher(stage, sellerScene, seller);
+				stage.setScene(sellerVouchers.getScene());
+			}
+		});
+		
+		Button transactionButton = new Button();
+		transactionButton.setGraphic(transactionicon);
+		transactionButton.setStyle("-fx-background-color: transparent;");
+		
+        BorderPane root = new BorderPane();
+        Scene sellerScene = new Scene(root, 1024, 576);
+        sellerScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        this.sellerScene = sellerScene;
+        
+        //HBox and VBox for buttons
+        
+        HBox icons = new HBox(18, homeButton, voucherButton, transactionButton);
+        VBox topIcons = new VBox(10, userButton, icons);
+        topIcons.setStyle("-fx-padding: 5 0 0 790");
+        
 
         // Check if seller has products
         if (seller.getProductList().isEmpty()) {
@@ -61,7 +102,7 @@ public class SellerScreen {
 
             root.getStyleClass().add("sellerscreen_initial");
             root.setBottom(button);
-            root.setTop(userButton);
+            root.setTop(topIcons);
         } else {
             // Products exist - go directly to storefront
             SellerStorefront storefront = new SellerStorefront(stage, main, seller);
