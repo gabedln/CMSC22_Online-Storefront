@@ -54,7 +54,7 @@ public class BuyerScreen {
         //create buttons
 		Button userButton = new Button();
 		userButton.setGraphic(usericon);
-		userButton.setStyle("-fx-background-color: transparent; -fx-padding: 10 0 0 960;");
+		userButton.setStyle("-fx-background-color: transparent;");
 		userButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
 				UserInformation userInfo = new UserInformation(stage, buyerScene, (User)buyer);
@@ -89,11 +89,11 @@ public class BuyerScreen {
 
         // HBox for aligned buttons
 		HBox icons = new HBox(10, transactionButton, homeButton, voucherButton, wishlistButton, cartButton);
-		VBox topIcons = new VBox(5, userButton, icons);
+		VBox topIcons = new VBox(10, userButton, icons);
 		
         
 		root.getStyleClass().add("buyerscreen_initial");
-		root.setTop(icons);
+		root.setTop(topIcons);
    
     }
 
