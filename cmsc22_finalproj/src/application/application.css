@@ -78,6 +78,13 @@
 	-fx-background-repeat: no-repeat;
 }
 
+.seller-voucher{
+	-fx-background-image:url("images/viewvoucher_background.png");
+	-fx-background-size: cover;
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
 .product-back-button{
 	-fx-font-size: 26px;
 	-fx-font-family: "Nine By Five NBP";
