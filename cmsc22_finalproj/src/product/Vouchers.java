@@ -27,6 +27,19 @@ public class Vouchers implements Serializable {
         }
     }
 
+    public static void getLastCode(ArrayList<Seller> sellers){
+        int last = 0;
+        for(Seller seller : sellers){
+            for( Voucher voucher : seller.getVoucherList()){
+                if(voucher.getVoucherCode() > last){
+                    last = voucher.getVoucherCode();
+                }
+            }
+        }
+
+        last = maxCode;
+    }
+
     public int getVoucherCode() { return voucherCode; }
     public int getQuantity() { return quantity; }
     public float getMinimum() { return min; }
