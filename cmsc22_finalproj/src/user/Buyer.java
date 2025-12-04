@@ -89,6 +89,105 @@ public class Buyer extends User {
         System.out.println("Overall total: ₱" + overallTotal);
     }
 
+    public boolean processBuy(ArrayList<Product> products) {
+    if (!checkStock(products)) {
+        System.out.println("Insufficient stock for one or more products.");
+        return false;
+    }
+
+    HashMap<Seller, Float> discountedTotals = calculateDiscountedTotals(products);
+
+    float grandTotal = 0f;
+    for (Float sellerTotal : discountedTotals.values()) {
+        grandTotal += sellerTotal;
+    }
+
+    if (!finalizeCheckout(grandTotal, discountedTotals, products)) {
+        System.out.println("Insufficient balance. Needed: ₱" + grandTotal);
+        return false;
+    }
+
+    System.out.println("Checkout successful! Total paid: ₱" + grandTotal);
+    return true;
+}
+
+private boolean checkStock(ArrayList<Product> products) {
+    for (Product product : products) {
+        int quantity = cart.getOrDefault(product, 0);
+        if (quantity > product.getStock()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+private HashMap<Seller, Float> calculateDiscountedTotals(ArrayList<Product> products) {
+    HashMap<Seller, Float> sellerTotals = new HashMap<>();
+
+    for (Product product : products) {
+        int quantity = cart.getOrDefault(product, 0);
+        Seller seller = product.getSeller();
+        float subtotal = product.getPrice() * quantity;
+        sellerTotals.put(seller, sellerTotals.getOrDefault(seller, 0f) + subtotal);
+    }
+
+    HashMap<Seller, Float> discountedTotals = new HashMap<>();
+
+    for (Map.Entry<Seller, Float> sellerEntry : sellerTotals.entrySet()) {
+        Seller seller = sellerEntry.getKey();
+        float sellerSubtotal = sellerEntry.getValue();
+
+        float bestDiscount = 0f;
+        Vouchers bestVoucher = null;
+
+        for (Vouchers voucher : voucherList) {
+            if (sellerSubtotal >= voucher.getMinimum() && voucher.getQuantity() > 0 && voucher.getSeller() == seller) {
+                float discountAmount = sellerSubtotal * voucher.getDiscount();
+                if (discountAmount > voucher.getCap()) discountAmount = voucher.getCap();
+
+                if (discountAmount > bestDiscount) {
+                    bestDiscount = discountAmount;
+                    bestVoucher = voucher;
+                }
+            }
+        }
+
+        if (bestVoucher != null) {
+            bestVoucher.reduceQuantity();
+        }
+
+        discountedTotals.put(seller, sellerSubtotal - bestDiscount);
+    }
+
+    return discountedTotals;
+}
+
+private boolean finalizeCheckout(float grandTotal, HashMap<Seller, Float> discountedTotals, ArrayList<Product> products) {
+    if (getBalance() < grandTotal) {
+        return false;
+    }
+
+    setBalance(getBalance() - grandTotal);
+
+    for (Product product : products) {
+        int quantity = cart.getOrDefault(product, 0);
+        Seller seller = product.getSeller();
+
+        float sellerTotal = discountedTotals.getOrDefault(seller, 0f);
+        seller.setBalance(seller.getBalance() + sellerTotal);
+
+        product.setStock(product.getStock() - quantity);
+
+        TransactionHistory transactionHistory = new TransactionHistory(this, seller, product, quantity, sellerTotal);
+        transactions.add(transactionHistory);
+        seller.logTransaction(transactionHistory);
+    }
+
+    cart.clear();
+    return true;
+}
+
+
     // Transaction History
     public void viewTransactionHistory() {
         System.out.println(getUsername() + "'s Transaction History:");
